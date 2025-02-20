@@ -1,7 +1,7 @@
 {
     "name": "com.actimi.immerzasdk",
     "displayName": "Immerza SDK",
-    "version": "0.2.0",
+    "version": "0.2.1",
     "unity": "6000.0",
     "description": "The Immerza SDK and editor tools.\n Structs and Unity Events can’t be serialized at the moment, so set them directly in the script or use C# events.",
     "dependencies": {
