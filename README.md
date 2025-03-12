@@ -36,7 +36,7 @@ end
 ```lua
 function start()
 	CS.UnityEngine.Debug.LogWarning("This is a warning.")
-    self:GetComponent("MeshRenderer").enabled = false
+    	self:GetComponent("MeshRenderer").enabled = false
 end
 
 local unity = CS.UnityEngine
