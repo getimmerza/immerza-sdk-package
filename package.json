@@ -1,12 +1,13 @@
 {
     "name": "com.actimi.immerzasdk",
     "displayName": "Immerza SDK",
-    "version": "0.4.4",
+    "version": "0.5.1",
     "unity": "6000.0",
     "description": "The Immerza SDK and editor tools.\n Unity Events can’t be serialized at the moment, so set them directly in the script or use C# events.",
     "dependencies": {
       "com.unity.nuget.newtonsoft-json": "3.2.1",
-      "com.unity.splines": "2.7.2"
+      "com.unity.splines": "2.7.2",
+      "com.unity.visualeffectgraph": "17.0.3"
     },
     "author": {
       "name": "Immerza",
