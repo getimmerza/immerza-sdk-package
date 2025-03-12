@@ -1,7 +1,7 @@
 # immerza-sdk-package
 
 ## Setup
-* Add a GameObject with a ImmerzaLuaManager component into your scene
+* Add a GameObject with an ImmerzaLuaManager component into your scene
 * After that you can add a LuaComponent to any GameObject you like and reference your Lua script, the fields you want to reference from within the scene and/or any assets you want to have available in your Lua script
 
 ## MonoBehaviour methods
@@ -30,8 +30,8 @@ function update()
 end
 ```
 ## C# and Unity Classes and Methods
-* You can access them via 'CS' and then the namespace + class and then your desired Method.
-* Objects that are instances of them can also be used, but some are restricted due to security reasons (namely UnityWebRequests, System.IO, etc...).
+* You can access them via 'CS' and then the namespace + class and then your desired Method
+* Objects that are instances of them can also be used, but some are restricted due to security reasons (namely UnityWebRequests, System.IO, etc...)
 #### Example
 ```lua
 function start()
