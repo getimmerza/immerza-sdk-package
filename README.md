@@ -55,3 +55,20 @@ end
 ## Communication between scripts
 * You can use the Lua global environment to message between scripts
 #### -- Custom Lua events and GetLuaComponent for 1-1 and n-1 communication will be available in SDK Version 0.5.2 (very soon) --
+
+## UI
+* The SDK has default Unity UI support
+#### Example
+```lua
+local unity = CS.UnityEngine
+local crt_num = 0
+
+function start()
+	local num_comp = num_field:GetComponent("TMP_Text")
+	num_comp.text = crt_num
+	increment_button:GetComponent("Button").onClick:AddListener(function()
+		crt_num = crt_num + 1
+		num_comp.text = crt_num
+	end)
+end
+```
