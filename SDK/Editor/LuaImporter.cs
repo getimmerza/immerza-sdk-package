@@ -16,7 +16,7 @@ public class LuaImporter : ScriptedImporter
         LuaAsset newAsset = ScriptableObject.CreateInstance<LuaAsset>();
         newAsset.content = File.ReadAllText(ctx.assetPath);
 
-        string iconPath = ImmerzaUtil.IsRunningInPackage() ? "Packages/com.actimi.immerzasdk/Editor/Immerza/Assets/LuaIcon.png" : "Assets/Editor/Immerza/Assets/LuaIcon.png";
+        string iconPath = "Assets/Immerza/SDK/Editor/Assets/LuaIcon.png";
         Texture2D icon = AssetDatabase.LoadAssetAtPath<Texture2D>(iconPath);
         EditorGUIUtility.SetIconForObject(newAsset, icon);
 

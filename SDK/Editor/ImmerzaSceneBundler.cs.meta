@@ -1,2 +1,15 @@
 fileFormatVersion: 2
 guid: 61c3458ed60953143a54425df4f0cbff
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - m_ViewDataDictionary: {instanceID: 0}
+  - treeAsset: {fileID: 9197481963319205126, guid: 2bd18e40a3df83d4b91be36af07a3b8d, type: 3}
+  - logoSprite: {fileID: 21300000, guid: fcbd7c6f540b8d245a1c21780e1a34c3, type: 3}
+  - dummyFile: {fileID: 4900000, guid: 3ebf9800476c4c743bed06aa03419601, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -22,29 +22,18 @@ public class ImmerzaSceneBundler : EditorWindow
     private const string BuildTargetWindows = "Windows";
     private const string BuildTargetAndroid = "Android";
 
-    private VisualTreeAsset treeAsset = null;
+    public VisualTreeAsset treeAsset = null;
+    public Sprite logoSprite = null;
+    public TextAsset dummyFile = null;
     private SceneAsset sceneToExport = null;
 
     private ListView scenesView = null;
     private TextField path = null;
-    private TextField scriptsPath = null;
     private Button exportBtn = null;
     private Button refreshBtn = null;
     private Label successLabel = null;
     private Toggle openExportFolderTgl = null;
     private DropdownField buildTargetCmb = null;
-
-    //string unityAssembliesPath = Path.Combine(EditorApplication.applicationContentsPath, "Managed");
-    //string generalAssembliesPath = Path.Combine(EditorApplication.applicationContentsPath, "UnityReferenceAssemblies", "unity-4.8-api");
-
-    private string sceneCachePath = Path.Combine(Path.GetDirectoryName(Application.dataPath), "ImmerzaSceneCache");
-
-    private enum CompilationState
-    {
-        FAILED,
-        NO_FILES,
-        SUCCESS
-    };
 
     [MenuItem("Immerza/Scene Bundler")]
     public static void ShowSceneBundler()
@@ -56,25 +45,11 @@ public class ImmerzaSceneBundler : EditorWindow
     public void CreateGUI()
     {
         VisualElement root = rootVisualElement;
-        if (ImmerzaUtil.IsRunningInPackage())
-		{
-			treeAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Packages/com.actimi.immerzasdk/Editor/Immerza/ImmerzaSceneBundlerUI.uxml");
-		}
-		else
-		{
-			treeAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Editor/Immerza/ImmerzaSceneBundlerUI.uxml");
-		}
 		root.Add(new Label());
 		Image immerzaLogo = new Image();
         immerzaLogo.scaleMode = ScaleMode.ScaleToFit;
-		if (ImmerzaUtil.IsRunningInPackage())
-		{
-            immerzaLogo.sprite = AssetDatabase.LoadAssetAtPath<Sprite>("Packages/com.actimi.immerzasdk/Editor/Immerza/Assets/ImmerzaLogo.png");
-		}
-		else
-		{
-            immerzaLogo.sprite = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Editor/Immerza/Assets/ImmerzaLogo.png");
-		}
+
+        immerzaLogo.sprite = logoSprite;
 
         immerzaLogo.style.marginTop = 20.0f;
         immerzaLogo.style.marginLeft = 10.0f;
@@ -86,7 +61,6 @@ public class ImmerzaSceneBundler : EditorWindow
 
         scenesView = root.Q<ListView>("SceneList");
         path = root.Q<TextField>("ExportPath");
-        scriptsPath = root.Q<TextField>("ScriptsPath");
         exportBtn = root.Q<Button>("ExportButton");
         exportBtn.SetEnabled(false);
         exportBtn.style.backgroundColor = new UnityEngine.Color(0.2f, 0.2f, 0.2f);
@@ -115,7 +89,7 @@ public class ImmerzaSceneBundler : EditorWindow
         scenesView.itemsSource = null;
 
         string[] allSceneGuids = AssetDatabase.FindAssets("t:SceneAsset", new[] { "Assets" });
-        List<SceneAsset> allScenes = new List<SceneAsset>();
+        List<SceneAsset> allScenes = new();
 
         foreach (string guid in allSceneGuids)
         {
@@ -156,8 +130,8 @@ public class ImmerzaSceneBundler : EditorWindow
 
         string bundleDir = Path.Combine(Path.GetDirectoryName(Application.dataPath), path.text);
 
-        SceneMetadata sceneMetadata = new SceneMetadata();
-        AssetMetadata assetMetadata = new AssetMetadata();
+        SceneMetadata sceneMetadata = new();
+        AssetMetadata assetMetadata = new();
 
         List<string> assetPaths = new();
 
@@ -170,16 +144,8 @@ public class ImmerzaSceneBundler : EditorWindow
 
         assetMetadata.AddAsset("ImmerzaScene", scenePath);
 
-        if (ImmerzaUtil.IsRunningInPackage())
-        {
-            ImmerzaUtil.AddAssetPath(assetPaths, "Packages/com.actimi.immerzasdk/Editor/Immerza/Assets/DummyFile.txt");
-            assetMetadata.AddAsset("Gen", "NONE");
-        }
-        else
-        {
-            ImmerzaUtil.AddAssetPath(assetPaths, "Assets/Editor/Immerza/Assets/DummyFile.txt");
-            assetMetadata.AddAsset("Gen", "NONE");
-        }
+        ImmerzaUtil.AddAssetPath(assetPaths, AssetDatabase.GetAssetPath(dummyFile));
+        assetMetadata.AddAsset("Gen", "NONE");
 
 #if BUILD_BUNDLE
         AssetBundleBuild[] exportMap = new AssetBundleBuild[2];
@@ -236,7 +202,7 @@ public class ImmerzaSceneBundler : EditorWindow
 #endif
             sceneMetadata.hash = crc;
             sceneMetadata.sceneID = "0";
-            sceneMetadata.sdkVersion = ImmerzaUtil.IsRunningInPackage() ? GetPackageVersion() : "dev";
+            //sceneMetadata.sdkVersion = ImmerzaUtil.IsRunningInPackage() ? GetPackageVersion() : "dev";
             sceneMetadata.isUsingBgMusic = FindAnyObjectByType<BackgroundAudio>(FindObjectsInactive.Include) != null;
             sceneMetadata.SaveMetaData(Path.Combine(bundleDir, "immerza_metadata.json"));
 
@@ -273,14 +239,6 @@ public class ImmerzaSceneBundler : EditorWindow
             successLabel.style.color = new Color(1.0f, 0.36f, 0.36f);
             successLabel.text = message == null ? message : "Scene export failed.";
         }
-    }
-
-    private string GetPackageVersion()
-    {
-        TextAsset packageAsset = (TextAsset)AssetDatabase.LoadAssetAtPath("Packages/com.actimi.immerzasdk/package.json", typeof(TextAsset));
-        JObject jsonPackage = JObject.Parse(packageAsset.text);
-
-        return jsonPackage["version"]?.ToString();
     }
 
     private void SetSuccessMsg(bool success)
