@@ -121,6 +121,18 @@ namespace XLua.CSObjectWrap
             translator.DelayWrapLoader(typeof(UnityEngine.Light), UnityEngineLightWrap.__Register);
         
         
+            translator.DelayWrapLoader(typeof(UnityEngine.Splines.Spline), UnityEngineSplinesSplineWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(UnityEngine.Splines.SplineContainer), UnityEngineSplinesSplineContainerWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(UnityEngine.Splines.SplineAnimate), UnityEngineSplinesSplineAnimateWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(UnityEngine.Splines.SplineComponent), UnityEngineSplinesSplineComponentWrap.__Register);
+        
+        
             translator.DelayWrapLoader(typeof(UnityEngine.Mathf), UnityEngineMathfWrap.__Register);
         
         

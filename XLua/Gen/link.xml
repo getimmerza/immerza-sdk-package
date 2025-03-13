@@ -70,6 +70,14 @@
 		
 	</assembly>
 
+	<assembly fullname="Unity.Splines">
+	    <type fullname="UnityEngine.Splines.Spline" preserve="all"/>
+		<type fullname="UnityEngine.Splines.SplineContainer" preserve="all"/>
+		<type fullname="UnityEngine.Splines.SplineAnimate" preserve="all"/>
+		<type fullname="UnityEngine.Splines.SplineComponent" preserve="all"/>
+		
+	</assembly>
+
 	<assembly fullname="Assembly-CSharp">
 	    <type fullname="ImmerzaSDK.BreathingDetection" preserve="all"/>
 		<type fullname="ImmerzaSDK.ImmerzaEvents" preserve="all"/>

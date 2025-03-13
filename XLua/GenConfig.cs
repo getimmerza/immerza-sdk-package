@@ -14,6 +14,7 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine.Video;
 using UnityEngine.VFX;
+using UnityEngine.Splines;
 
 public static class GenConfig
 {
@@ -52,6 +53,10 @@ public static class GenConfig
                 typeof(AudioSource),
                 typeof(Renderer),
                 typeof(Light),
+                typeof(Spline),
+                typeof(SplineContainer),
+                typeof(SplineAnimate),
+                typeof(SplineComponent),
                 typeof(Mathf),
                 typeof(System.Collections.Generic.List<int>),
                 typeof(Action<string>),
