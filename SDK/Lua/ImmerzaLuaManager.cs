@@ -27,7 +27,7 @@ namespace ImmerzaSDK.Lua
 
         private void OnDestroy()
         {
-            GlobalEnv.Dispose();
+            //GlobalEnv.Dispose();
         }
     }
 }

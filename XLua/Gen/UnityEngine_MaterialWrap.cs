@@ -21,7 +21,7 @@ namespace XLua.CSObjectWrap
         {
 			ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
 			System.Type type = typeof(UnityEngine.Material);
-			Utils.BeginObjectRegister(type, L, translator, 0, 66, 15, 12);
+			Utils.BeginObjectRegister(type, L, translator, 0, 58, 13, 11);
 			
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "HasProperty", _m_HasProperty);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "HasFloat", _m_HasFloat);
@@ -50,14 +50,6 @@ namespace XLua.CSObjectWrap
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "ComputeCRC", _m_ComputeCRC);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "GetTexturePropertyNames", _m_GetTexturePropertyNames);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "GetTexturePropertyNameIDs", _m_GetTexturePropertyNameIDs);
-			Utils.RegisterFunc(L, Utils.METHOD_IDX, "IsChildOf", _m_IsChildOf);
-			Utils.RegisterFunc(L, Utils.METHOD_IDX, "RevertAllPropertyOverrides", _m_RevertAllPropertyOverrides);
-			Utils.RegisterFunc(L, Utils.METHOD_IDX, "IsPropertyOverriden", _m_IsPropertyOverriden);
-			Utils.RegisterFunc(L, Utils.METHOD_IDX, "IsPropertyLocked", _m_IsPropertyLocked);
-			Utils.RegisterFunc(L, Utils.METHOD_IDX, "IsPropertyLockedByAncestor", _m_IsPropertyLockedByAncestor);
-			Utils.RegisterFunc(L, Utils.METHOD_IDX, "SetPropertyLock", _m_SetPropertyLock);
-			Utils.RegisterFunc(L, Utils.METHOD_IDX, "ApplyPropertyOverride", _m_ApplyPropertyOverride);
-			Utils.RegisterFunc(L, Utils.METHOD_IDX, "RevertPropertyOverride", _m_RevertPropertyOverride);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "SetInt", _m_SetInt);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "SetFloat", _m_SetFloat);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "SetInteger", _m_SetInteger);
@@ -104,8 +96,6 @@ namespace XLua.CSObjectWrap
             Utils.RegisterFunc(L, Utils.GETTER_IDX, "enableInstancing", _g_get_enableInstancing);
             Utils.RegisterFunc(L, Utils.GETTER_IDX, "passCount", _g_get_passCount);
             Utils.RegisterFunc(L, Utils.GETTER_IDX, "shaderKeywords", _g_get_shaderKeywords);
-            Utils.RegisterFunc(L, Utils.GETTER_IDX, "parent", _g_get_parent);
-            Utils.RegisterFunc(L, Utils.GETTER_IDX, "isVariant", _g_get_isVariant);
             
 			Utils.RegisterFunc(L, Utils.SETTER_IDX, "shader", _s_set_shader);
             Utils.RegisterFunc(L, Utils.SETTER_IDX, "color", _s_set_color);
@@ -118,7 +108,6 @@ namespace XLua.CSObjectWrap
             Utils.RegisterFunc(L, Utils.SETTER_IDX, "doubleSidedGI", _s_set_doubleSidedGI);
             Utils.RegisterFunc(L, Utils.SETTER_IDX, "enableInstancing", _s_set_enableInstancing);
             Utils.RegisterFunc(L, Utils.SETTER_IDX, "shaderKeywords", _s_set_shaderKeywords);
-            Utils.RegisterFunc(L, Utils.SETTER_IDX, "parent", _s_set_parent);
             
 			
 			Utils.EndObjectRegister(type, L, translator, null, null,
@@ -1199,348 +1188,6 @@ namespace XLua.CSObjectWrap
             }
             
             return LuaAPI.luaL_error(L, "invalid arguments to UnityEngine.Material.GetTexturePropertyNameIDs!");
-            
-        }
-        
-        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _m_IsChildOf(RealStatePtr L)
-        {
-		    try {
-            
-                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-            
-            
-                UnityEngine.Material gen_to_be_invoked = (UnityEngine.Material)translator.FastGetCSObj(L, 1);
-            
-            
-                
-                {
-                    UnityEngine.Material _ancestor = (UnityEngine.Material)translator.GetObject(L, 2, typeof(UnityEngine.Material));
-                    
-                        var gen_ret = gen_to_be_invoked.IsChildOf( _ancestor );
-                        LuaAPI.lua_pushboolean(L, gen_ret);
-                    
-                    
-                    
-                    return 1;
-                }
-                
-            } catch(System.Exception gen_e) {
-                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
-            }
-            
-        }
-        
-        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _m_RevertAllPropertyOverrides(RealStatePtr L)
-        {
-		    try {
-            
-                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-            
-            
-                UnityEngine.Material gen_to_be_invoked = (UnityEngine.Material)translator.FastGetCSObj(L, 1);
-            
-            
-                
-                {
-                    
-                    gen_to_be_invoked.RevertAllPropertyOverrides(  );
-                    
-                    
-                    
-                    return 0;
-                }
-                
-            } catch(System.Exception gen_e) {
-                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
-            }
-            
-        }
-        
-        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _m_IsPropertyOverriden(RealStatePtr L)
-        {
-		    try {
-            
-                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-            
-            
-                UnityEngine.Material gen_to_be_invoked = (UnityEngine.Material)translator.FastGetCSObj(L, 1);
-            
-            
-			    int gen_param_count = LuaAPI.lua_gettop(L);
-            
-                if(gen_param_count == 2&& LuaTypes.LUA_TNUMBER == LuaAPI.lua_type(L, 2)) 
-                {
-                    int _nameID = LuaAPI.xlua_tointeger(L, 2);
-                    
-                        var gen_ret = gen_to_be_invoked.IsPropertyOverriden( _nameID );
-                        LuaAPI.lua_pushboolean(L, gen_ret);
-                    
-                    
-                    
-                    return 1;
-                }
-                if(gen_param_count == 2&& (LuaAPI.lua_isnil(L, 2) || LuaAPI.lua_type(L, 2) == LuaTypes.LUA_TSTRING)) 
-                {
-                    string _name = LuaAPI.lua_tostring(L, 2);
-                    
-                        var gen_ret = gen_to_be_invoked.IsPropertyOverriden( _name );
-                        LuaAPI.lua_pushboolean(L, gen_ret);
-                    
-                    
-                    
-                    return 1;
-                }
-                
-            } catch(System.Exception gen_e) {
-                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
-            }
-            
-            return LuaAPI.luaL_error(L, "invalid arguments to UnityEngine.Material.IsPropertyOverriden!");
-            
-        }
-        
-        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _m_IsPropertyLocked(RealStatePtr L)
-        {
-		    try {
-            
-                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-            
-            
-                UnityEngine.Material gen_to_be_invoked = (UnityEngine.Material)translator.FastGetCSObj(L, 1);
-            
-            
-			    int gen_param_count = LuaAPI.lua_gettop(L);
-            
-                if(gen_param_count == 2&& LuaTypes.LUA_TNUMBER == LuaAPI.lua_type(L, 2)) 
-                {
-                    int _nameID = LuaAPI.xlua_tointeger(L, 2);
-                    
-                        var gen_ret = gen_to_be_invoked.IsPropertyLocked( _nameID );
-                        LuaAPI.lua_pushboolean(L, gen_ret);
-                    
-                    
-                    
-                    return 1;
-                }
-                if(gen_param_count == 2&& (LuaAPI.lua_isnil(L, 2) || LuaAPI.lua_type(L, 2) == LuaTypes.LUA_TSTRING)) 
-                {
-                    string _name = LuaAPI.lua_tostring(L, 2);
-                    
-                        var gen_ret = gen_to_be_invoked.IsPropertyLocked( _name );
-                        LuaAPI.lua_pushboolean(L, gen_ret);
-                    
-                    
-                    
-                    return 1;
-                }
-                
-            } catch(System.Exception gen_e) {
-                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
-            }
-            
-            return LuaAPI.luaL_error(L, "invalid arguments to UnityEngine.Material.IsPropertyLocked!");
-            
-        }
-        
-        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _m_IsPropertyLockedByAncestor(RealStatePtr L)
-        {
-		    try {
-            
-                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-            
-            
-                UnityEngine.Material gen_to_be_invoked = (UnityEngine.Material)translator.FastGetCSObj(L, 1);
-            
-            
-			    int gen_param_count = LuaAPI.lua_gettop(L);
-            
-                if(gen_param_count == 2&& LuaTypes.LUA_TNUMBER == LuaAPI.lua_type(L, 2)) 
-                {
-                    int _nameID = LuaAPI.xlua_tointeger(L, 2);
-                    
-                        var gen_ret = gen_to_be_invoked.IsPropertyLockedByAncestor( _nameID );
-                        LuaAPI.lua_pushboolean(L, gen_ret);
-                    
-                    
-                    
-                    return 1;
-                }
-                if(gen_param_count == 2&& (LuaAPI.lua_isnil(L, 2) || LuaAPI.lua_type(L, 2) == LuaTypes.LUA_TSTRING)) 
-                {
-                    string _name = LuaAPI.lua_tostring(L, 2);
-                    
-                        var gen_ret = gen_to_be_invoked.IsPropertyLockedByAncestor( _name );
-                        LuaAPI.lua_pushboolean(L, gen_ret);
-                    
-                    
-                    
-                    return 1;
-                }
-                
-            } catch(System.Exception gen_e) {
-                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
-            }
-            
-            return LuaAPI.luaL_error(L, "invalid arguments to UnityEngine.Material.IsPropertyLockedByAncestor!");
-            
-        }
-        
-        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _m_SetPropertyLock(RealStatePtr L)
-        {
-		    try {
-            
-                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-            
-            
-                UnityEngine.Material gen_to_be_invoked = (UnityEngine.Material)translator.FastGetCSObj(L, 1);
-            
-            
-			    int gen_param_count = LuaAPI.lua_gettop(L);
-            
-                if(gen_param_count == 3&& LuaTypes.LUA_TNUMBER == LuaAPI.lua_type(L, 2)&& LuaTypes.LUA_TBOOLEAN == LuaAPI.lua_type(L, 3)) 
-                {
-                    int _nameID = LuaAPI.xlua_tointeger(L, 2);
-                    bool _value = LuaAPI.lua_toboolean(L, 3);
-                    
-                    gen_to_be_invoked.SetPropertyLock( _nameID, _value );
-                    
-                    
-                    
-                    return 0;
-                }
-                if(gen_param_count == 3&& (LuaAPI.lua_isnil(L, 2) || LuaAPI.lua_type(L, 2) == LuaTypes.LUA_TSTRING)&& LuaTypes.LUA_TBOOLEAN == LuaAPI.lua_type(L, 3)) 
-                {
-                    string _name = LuaAPI.lua_tostring(L, 2);
-                    bool _value = LuaAPI.lua_toboolean(L, 3);
-                    
-                    gen_to_be_invoked.SetPropertyLock( _name, _value );
-                    
-                    
-                    
-                    return 0;
-                }
-                
-            } catch(System.Exception gen_e) {
-                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
-            }
-            
-            return LuaAPI.luaL_error(L, "invalid arguments to UnityEngine.Material.SetPropertyLock!");
-            
-        }
-        
-        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _m_ApplyPropertyOverride(RealStatePtr L)
-        {
-		    try {
-            
-                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-            
-            
-                UnityEngine.Material gen_to_be_invoked = (UnityEngine.Material)translator.FastGetCSObj(L, 1);
-            
-            
-			    int gen_param_count = LuaAPI.lua_gettop(L);
-            
-                if(gen_param_count == 4&& translator.Assignable<UnityEngine.Material>(L, 2)&& LuaTypes.LUA_TNUMBER == LuaAPI.lua_type(L, 3)&& LuaTypes.LUA_TBOOLEAN == LuaAPI.lua_type(L, 4)) 
-                {
-                    UnityEngine.Material _destination = (UnityEngine.Material)translator.GetObject(L, 2, typeof(UnityEngine.Material));
-                    int _nameID = LuaAPI.xlua_tointeger(L, 3);
-                    bool _recordUndo = LuaAPI.lua_toboolean(L, 4);
-                    
-                    gen_to_be_invoked.ApplyPropertyOverride( _destination, _nameID, _recordUndo );
-                    
-                    
-                    
-                    return 0;
-                }
-                if(gen_param_count == 3&& translator.Assignable<UnityEngine.Material>(L, 2)&& LuaTypes.LUA_TNUMBER == LuaAPI.lua_type(L, 3)) 
-                {
-                    UnityEngine.Material _destination = (UnityEngine.Material)translator.GetObject(L, 2, typeof(UnityEngine.Material));
-                    int _nameID = LuaAPI.xlua_tointeger(L, 3);
-                    
-                    gen_to_be_invoked.ApplyPropertyOverride( _destination, _nameID );
-                    
-                    
-                    
-                    return 0;
-                }
-                if(gen_param_count == 4&& translator.Assignable<UnityEngine.Material>(L, 2)&& (LuaAPI.lua_isnil(L, 3) || LuaAPI.lua_type(L, 3) == LuaTypes.LUA_TSTRING)&& LuaTypes.LUA_TBOOLEAN == LuaAPI.lua_type(L, 4)) 
-                {
-                    UnityEngine.Material _destination = (UnityEngine.Material)translator.GetObject(L, 2, typeof(UnityEngine.Material));
-                    string _name = LuaAPI.lua_tostring(L, 3);
-                    bool _recordUndo = LuaAPI.lua_toboolean(L, 4);
-                    
-                    gen_to_be_invoked.ApplyPropertyOverride( _destination, _name, _recordUndo );
-                    
-                    
-                    
-                    return 0;
-                }
-                if(gen_param_count == 3&& translator.Assignable<UnityEngine.Material>(L, 2)&& (LuaAPI.lua_isnil(L, 3) || LuaAPI.lua_type(L, 3) == LuaTypes.LUA_TSTRING)) 
-                {
-                    UnityEngine.Material _destination = (UnityEngine.Material)translator.GetObject(L, 2, typeof(UnityEngine.Material));
-                    string _name = LuaAPI.lua_tostring(L, 3);
-                    
-                    gen_to_be_invoked.ApplyPropertyOverride( _destination, _name );
-                    
-                    
-                    
-                    return 0;
-                }
-                
-            } catch(System.Exception gen_e) {
-                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
-            }
-            
-            return LuaAPI.luaL_error(L, "invalid arguments to UnityEngine.Material.ApplyPropertyOverride!");
-            
-        }
-        
-        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _m_RevertPropertyOverride(RealStatePtr L)
-        {
-		    try {
-            
-                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-            
-            
-                UnityEngine.Material gen_to_be_invoked = (UnityEngine.Material)translator.FastGetCSObj(L, 1);
-            
-            
-			    int gen_param_count = LuaAPI.lua_gettop(L);
-            
-                if(gen_param_count == 2&& LuaTypes.LUA_TNUMBER == LuaAPI.lua_type(L, 2)) 
-                {
-                    int _nameID = LuaAPI.xlua_tointeger(L, 2);
-                    
-                    gen_to_be_invoked.RevertPropertyOverride( _nameID );
-                    
-                    
-                    
-                    return 0;
-                }
-                if(gen_param_count == 2&& (LuaAPI.lua_isnil(L, 2) || LuaAPI.lua_type(L, 2) == LuaTypes.LUA_TSTRING)) 
-                {
-                    string _name = LuaAPI.lua_tostring(L, 2);
-                    
-                    gen_to_be_invoked.RevertPropertyOverride( _name );
-                    
-                    
-                    
-                    return 0;
-                }
-                
-            } catch(System.Exception gen_e) {
-                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
-            }
-            
-            return LuaAPI.luaL_error(L, "invalid arguments to UnityEngine.Material.RevertPropertyOverride!");
             
         }
         
@@ -3300,34 +2947,6 @@ namespace XLua.CSObjectWrap
             return 1;
         }
         
-        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _g_get_parent(RealStatePtr L)
-        {
-		    try {
-                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-			
-                UnityEngine.Material gen_to_be_invoked = (UnityEngine.Material)translator.FastGetCSObj(L, 1);
-                translator.Push(L, gen_to_be_invoked.parent);
-            } catch(System.Exception gen_e) {
-                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
-            }
-            return 1;
-        }
-        
-        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _g_get_isVariant(RealStatePtr L)
-        {
-		    try {
-                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-			
-                UnityEngine.Material gen_to_be_invoked = (UnityEngine.Material)translator.FastGetCSObj(L, 1);
-                LuaAPI.lua_pushboolean(L, gen_to_be_invoked.isVariant);
-            } catch(System.Exception gen_e) {
-                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
-            }
-            return 1;
-        }
-        
         
         
         [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -3492,21 +3111,6 @@ namespace XLua.CSObjectWrap
 			
                 UnityEngine.Material gen_to_be_invoked = (UnityEngine.Material)translator.FastGetCSObj(L, 1);
                 gen_to_be_invoked.shaderKeywords = (string[])translator.GetObject(L, 2, typeof(string[]));
-            
-            } catch(System.Exception gen_e) {
-                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
-            }
-            return 0;
-        }
-        
-        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _s_set_parent(RealStatePtr L)
-        {
-		    try {
-                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-			
-                UnityEngine.Material gen_to_be_invoked = (UnityEngine.Material)translator.FastGetCSObj(L, 1);
-                gen_to_be_invoked.parent = (UnityEngine.Material)translator.GetObject(L, 2, typeof(UnityEngine.Material));
             
             } catch(System.Exception gen_e) {
                 return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
