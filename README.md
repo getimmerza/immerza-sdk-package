@@ -65,6 +65,8 @@ obj:GetComponent("LuaComponent").scriptEnv.some_variable
 #### Example:
 **OneLuaScript.lua:**
 ```Lua
+local lua_util = CS.ImmerzaSDK.Lua.LuaComponent
+
 function awake()
 	lua_util.RegisterEvent("CubeNotify", function (event_data)
 			unity.Debug.Log(event_data.message)
@@ -75,6 +77,8 @@ end
 
 **AnotherLuaScript.lua:**
 ```Lua
+local lua_util = CS.ImmerzaSDK.Lua.LuaComponent
+
 function start()
     lua_util.TriggerEvent("CubeNotify", { message = "Hello from GetLuaComponentReference!" })
 end
@@ -96,5 +100,30 @@ function start()
 		crt_num = crt_num + 1
 		num_comp.text = crt_num
 	end)
+end
+```
+## Things to check when exporting the scene:
+* Subscribe to the OnPauseRequested event in the class ImmerzaEvents and provide a pause implementation
+#### Example:
+```Lua
+function awake()
+	CS.ImmerzaSDK.ImmerzaEvents.OnPauseRequested('+', on_pause_requested)
+end
+
+function on_pause_requested(shouldPause)
+	if shouldPause then
+		-- implement pause
+	else 
+		-- implement unpause
+	end
+end
+```
+<br>
+
+* If you want to end the scene, you can call EndScene()
+#### Example:
+```Lua
+function start()
+	CS.ImmerzaSDK.ImmerzaEvents.EndScene()
 end
 ```
