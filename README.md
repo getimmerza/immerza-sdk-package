@@ -54,7 +54,33 @@ end
 ```
 ## Communication between scripts
 * You can use the Lua global environment to message between scripts
-#### -- Custom Lua events and GetLuaComponent for 1-1 and n-1 communication will be available in SDK Version 0.5.2 (very soon) --
+* It is also to just directly get the LuaComponent and its scriptEnv to execute functions or access variables on the object
+#### Example:
+```Lua
+obj:GetComponent("LuaComponent").scriptEnv.do_something()
+obj:GetComponent("LuaComponent").scriptEnv.some_variable
+```
+
+* The SDK has an event system where you can register and trigger events from any script and provide a custom payload
+#### Example:
+**OneLuaScript.lua:**
+```Lua
+function awake()
+	lua_util.RegisterEvent("CubeNotify", function (event_data)
+			unity.Debug.Log(event_data.message)
+		end
+	)
+end
+```
+
+**AnotherLuaScript.lua:**
+```Lua
+function start()
+    lua_util.TriggerEvent("CubeNotify", { message = "Hello from GetLuaComponentReference!" })
+end
+
+-- Result: OneLuaScript instance prints "Hello from GetLuaComponentReference!"
+```
 
 ## UI
 * The SDK has default Unity UI support
