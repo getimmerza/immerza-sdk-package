@@ -1,7 +1,9 @@
 using System;
+using XLua;
 
 namespace ImmerzaSDK
 {
+    [LuaCallCSharp]
     public static class ImmerzaEvents
     {
         public static event Action<bool> OnPauseRequested; // true for pause, false for unpause

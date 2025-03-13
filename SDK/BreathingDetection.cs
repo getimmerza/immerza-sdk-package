@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.XR;
+using XLua;
 
 namespace ImmerzaSDK
 {
+    [LuaCallCSharp]
     public class BreathingDetection : MonoBehaviour
     {
         private InputDevice leftHandDevice;
         private InputDevice rightHandDevice;
 
         // Events Actions for Observations
-        public static event Action ExhaleStarted;
+         public static event Action ExhaleStarted;
         public static event Action ExhaleFinished;
         public static event Action<string, float, float, float> RespiratoryRatePost;
 

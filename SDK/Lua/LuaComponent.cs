@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SocialPlatforms;
 using XLua;
 
 namespace ImmerzaSDK.Lua
@@ -13,14 +12,15 @@ namespace ImmerzaSDK.Lua
         public UnityEngine.Object value;
     }
 
+    [LuaCallCSharp]
     public class LuaComponent : MonoBehaviour
     {
-        //private static Dictionary<string, Action<LuaTable>> eventListeners = new();
-
         [SerializeField] private LuaAsset luaFile;
         [SerializeField] private List<Reference> references;
 
         [HideInInspector] public LuaTable scriptEnv;
+
+        private static Dictionary<string, Action<LuaTable>> eventListeners = new();
 
         // Standard engine functions to forward
         private Action luaAwake;
@@ -29,8 +29,6 @@ namespace ImmerzaSDK.Lua
         private Action luaOnDisable;
         private Action luaUpdate;
         private Action luaOnDestroy;
-
-        //private readonly Func<GameObject, LuaTable> luaGetLuaComponent = GetLuaComponent;
 
         // Physics
         private Action<Collision> luaOnCollisionEnter;
@@ -145,13 +143,20 @@ namespace ImmerzaSDK.Lua
             luaOnTriggerExit?.Invoke(other);
         }
 
-        /*public static LuaTable GetLuaComponent(GameObject target)
+        public static void RegisterEvent(string eventName, Action<LuaTable> callback)
         {
-            if (target.TryGetComponent<LuaComponent>(out var comp))
+            if (!eventListeners.ContainsKey(eventName))
             {
-                return comp.scriptEnv;
+                eventListeners[eventName] = callback;
             }
-            return null;
-        }*/
+        }
+
+        public static void TriggerEvent(string eventName, LuaTable eventData)
+        {
+            if (eventListeners.TryGetValue(eventName, out Action<LuaTable> callback))
+            {
+                callback(eventData);
+            }
+        }
     }
 }

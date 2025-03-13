@@ -70,4 +70,12 @@
 		
 	</assembly>
 
+	<assembly fullname="Assembly-CSharp">
+	    <type fullname="ImmerzaSDK.BreathingDetection" preserve="all"/>
+		<type fullname="ImmerzaSDK.ImmerzaEvents" preserve="all"/>
+		<type fullname="ImmerzaSDK.MultipathContainer" preserve="all"/>
+		<type fullname="ImmerzaSDK.Lua.LuaComponent" preserve="all"/>
+		
+	</assembly>
+
 </linker>

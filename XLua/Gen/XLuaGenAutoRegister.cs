@@ -130,6 +130,18 @@ namespace XLua.CSObjectWrap
             translator.DelayWrapLoader(typeof(UnityEngine.Debug), UnityEngineDebugWrap.__Register);
         
         
+            translator.DelayWrapLoader(typeof(ImmerzaSDK.BreathingDetection), ImmerzaSDKBreathingDetectionWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(ImmerzaSDK.ImmerzaEvents), ImmerzaSDKImmerzaEventsWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(ImmerzaSDK.MultipathContainer), ImmerzaSDKMultipathContainerWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(ImmerzaSDK.Lua.LuaComponent), ImmerzaSDKLuaLuaComponentWrap.__Register);
+        
+        
         
         }
         

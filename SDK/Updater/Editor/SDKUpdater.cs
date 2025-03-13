@@ -111,16 +111,15 @@ namespace ImmerzaSDK.Editor
 
             string accessToken = await GetAccessToken();
 
-            
-
-            /*using UnityWebRequest tarReq = UnityWebRequest.Get(chosenRelease.Url);
+            using UnityWebRequest tarReq = UnityWebRequest.Get("https://api.ovok.com/binary/" + chosenRelease.Url);
+            tarReq.SetRequestHeader("Authorization", accessToken);
             UnityWebRequestAsyncOperation op = tarReq.SendWebRequest();
 
             while (!op.isDone)
             {
                 downloadProgress.value = tarReq.downloadProgress;
                 await Task.Delay(1);
-            }*/
+            }
 
             Debug.Log("TEST");
         }
