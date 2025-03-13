@@ -11,6 +11,8 @@ using UnityEngine.Networking;
 using Newtonsoft.Json.Linq;
 using System.Text.RegularExpressions;
 using Unity.Android.Gradle.Manifest;
+using System.Collections;
+using System.Threading.Tasks;
 
 namespace ImmerzaSDK.Editor
 {
@@ -30,12 +32,13 @@ namespace ImmerzaSDK.Editor
     {
         [SerializeField] private VisualTreeAsset treeAsset = null;
 
-        private const string ReleaseEndpoint = "https://api.github.com/repos/getimmerza/immerza-sdk-package/releases";
+        private const string ReleaseEndpoint = "https://api.ovok.com/fhir/Basic?code=sdk-release";
 
         private Label crtVersionField = null;
         private DropdownField versionField = null;
         private Button refreshBtn = null;
         private Button updateBtn = null;
+        private ProgressBar downloadProgress = null;
         private Label successLabel = null;
 
         private List<Release> releases = new();
@@ -61,15 +64,18 @@ namespace ImmerzaSDK.Editor
             versionField = root.Q<DropdownField>("VersionField");
             refreshBtn = root.Q<Button>("RefreshButton");
             updateBtn = root.Q<Button>("UpdateButton");
+            downloadProgress = root.Q<ProgressBar>("DownloadProgress");
             successLabel = root.Q<Label>("SuccessLabel");
             successLabel.visible = false;
 
             refreshBtn.clicked += Refresh;
+            updateBtn.clicked += () => UpdateSDK();
 
             crtVersion = AssetDatabase.LoadAssetAtPath<TextAsset>("Assets/Immerza/Version.txt").text;
             crtVersionField.text = crtVersion;
 
             versionField.RegisterCallback<PointerDownEvent>(evt => ChooseRelease());
+
 
             Refresh();
         }
@@ -99,24 +105,50 @@ namespace ImmerzaSDK.Editor
             SetButton(updateBtn, CheckVersion());
         }
 
+        private async Task UpdateSDK()
+        {
+            Release chosenRelease = releases.Find((val) => val.Version == versionField.text);
+
+            string accessToken = await GetAccessToken();
+
+            
+
+            /*using UnityWebRequest tarReq = UnityWebRequest.Get(chosenRelease.Url);
+            UnityWebRequestAsyncOperation op = tarReq.SendWebRequest();
+
+            while (!op.isDone)
+            {
+                downloadProgress.value = tarReq.downloadProgress;
+                await Task.Delay(1);
+            }*/
+
+            Debug.Log("TEST");
+        }
+
         private async Awaitable<bool> GetReleases()
         {
+            string accessToken = await GetAccessToken();
+
             using UnityWebRequest releasesReq = UnityWebRequest.Get(ReleaseEndpoint);
+            releasesReq.SetRequestHeader("Authorization", accessToken);
             await releasesReq.SendWebRequest();
 
             if (releasesReq.result != UnityWebRequest.Result.Success)
             {
                 SetSuccessMsg(false, "Network Error, couldn't get releases.");
+                Debug.LogError(releasesReq.downloadHandler.text);
                 return false;
             }
 
-            JArray releaseArray = JArray.Parse(releasesReq.downloadHandler.text);
+            Debug.Log(releasesReq.downloadHandler.text);
 
-            foreach (JObject release in releaseArray)
+            JObject releasesJson = JObject.Parse(releasesReq.downloadHandler.text);
+
+            foreach (JObject release in releasesJson["entry"])
             {
                 Release newRelease = new(
-                    (string)release["tag_name"],
-                    (string)release["tarball_url"]
+                    (string)release["resource"]["extension"][0]["valueString"],
+                    (string)release["resource"]["extension"][0]["url"]
                 );
 
                 releases.Add(newRelease);
@@ -125,11 +157,33 @@ namespace ImmerzaSDK.Editor
             return true;
         }
 
+        private async Awaitable<string> GetAccessToken()
+        {
+            WWWForm formData = new();
+            formData.AddField("email", "defaultaccount@gmail.com");
+            formData.AddField("password", "defaultaccount123");
+            formData.AddField("clientId", "fc86ca24-e854-4c7f-bde1-fd5bb04d9a6d");
+
+            using UnityWebRequest req = UnityWebRequest.Post("https://api.ovok.com/auth/login", formData);
+            await req.SendWebRequest();
+
+            if (req.result != UnityWebRequest.Result.Success)
+            {
+                Debug.LogError("API request was not successful! Error: " + req.result);
+                return null;
+            }
+
+            JObject resObj = JObject.Parse(req.downloadHandler.text);
+
+            string accessToken = "Bearer " + (string)resObj["access_token"];
+            return accessToken;
+        }
+
         private bool CheckVersion()
         {
             string chosenVersion = versionField.value;
 
-            int compRes = CompareVersions(chosenVersion, versionField.value);
+            int compRes = CompareVersions(chosenVersion, crtVersion);
 
             return compRes > 0;
         }
