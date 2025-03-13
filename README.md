@@ -103,6 +103,7 @@ function start()
 end
 ```
 ## Things to check when exporting the scene:
+* Check that only one LuaManager instance is present in the scene
 * Subscribe to the OnPauseRequested event in the class ImmerzaEvents and provide a pause implementation
 #### Example:
 ```Lua
